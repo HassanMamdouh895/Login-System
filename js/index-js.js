@@ -1,0 +1,481 @@
+
+// All Varibales
+var box = []
+ var signUp 
+var signIn 
+var passwordRegex =/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+var emailRegex= /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+var userNameRegex = /^(^[a-zA-Z\s0-9]{3,})$/;
+var signInRegex = { 
+    emailUser:document.getElementById("emailIdd"),
+    passwordUser: document.getElementById("passwordIdd"),
+}
+var signupRegex = { 
+    userInput:document.getElementById("nameId"),
+    emailInput:document.getElementById("emailId"),
+    passwordInput: document.getElementById("passwordId"),
+}
+var btnSignIn =document.getElementById("signIn")
+var btnSignUp= document.getElementById("signUp")
+var btnVisit= document.getElementById("signlink")
+
+// All Varibales End
+
+// Visit Function  
+btnVisit.addEventListener("click",function(){
+
+
+        
+        document.getElementById("loginIn").classList.add("sign")
+        document.getElementById("loginIn").classList.remove("sign-in-up")
+
+        document.getElementById("loginUp").classList.add("sign-in-up")
+        document.getElementById("loginUp").classList.remove("sign")
+
+})
+// End Function  
+
+
+
+
+
+
+// localStorage conditional 
+if (localStorage.getItem("signupData") != null) {
+    box = JSON.parse(localStorage.getItem("signupData"));
+};
+// localStorage conditional 
+
+
+// Sign Up Function
+btnSignUp.addEventListener("click",function(){
+
+
+    signUp 
+    ={
+        
+        userName:document.getElementById("nameId").value,
+        email:document.getElementById("emailId").value,
+        password: document.getElementById("passwordId").value,
+    }
+
+
+
+if(signUp.userName==""|signUp.email==""|signUp.password=="")
+    {
+        document.querySelector(".messege-signup").innerHTML="Please Fill All Inputs"
+    }
+
+if (box.length == 0 &&userNameRegex.test(signupRegex.userInput.value)==true && emailRegex.test(signupRegex.emailInput.value)==true && passwordRegex.test(signupRegex.passwordInput.value)==true){
+        box.push(signUp)
+        localStorage.setItem("signupData", JSON.stringify(box))
+        clear()
+        
+        
+        document.getElementById("loginUp").classList.remove("sign-in-up")
+            document.getElementById("loginUp").classList.add("sign")
+
+        document.getElementById("loginIn").classList.add("sign-in-up")
+        document.getElementById("loginIn").classList.remove("sign")
+    
+    
+    }    
+else{
+    box.forEach(function (element) {
+
+
+
+        
+        if(signUp.email == element.email && signUp.userName == element.userName && signUp.password == element.password){
+            
+            document.querySelector(".messege-signup").innerHTML="Email Already Exists";
+            document.getElementById("nameId").classList.add("is-invalid")
+            document.getElementById("nameId").classList.remove("is-valid")
+            document.getElementById("emailId").classList.add("is-invalid")
+            document.getElementById("emailId").classList.remove("is-valid")
+            document.getElementById("passwordId").classList.add("is-invalid")
+            document.getElementById("passwordId").classList.remove("is-valid")
+            
+            return;
+        
+        }
+
+
+
+        else if(userNameRegex.test(signupRegex.userInput.value)==true && emailRegex.test(signupRegex.emailInput.value)==true && passwordRegex.test(signupRegex.passwordInput.value)==true) {
+            box.push(signUp)
+            localStorage.setItem("signupData", JSON.stringify(box))
+            clear()
+            document.getElementById("loginUp").classList.remove("sign-in-up")
+            document.getElementById("loginUp").classList.add("sign")
+
+            document.getElementById("loginIn").classList.add("sign-in-up")
+            document.getElementById("loginIn").classList.remove("sign")
+ 
+        }
+    });
+}
+    
+})
+
+// Sign Up Function
+
+
+
+// Sign in function
+
+btnSignIn.addEventListener("click",function(){
+    signIn 
+    ={
+        
+        emailUser:document.getElementById("emailIdd").value,
+        passwordUser: document.getElementById("passwordIdd").value,
+    }
+
+    // if(signIn.emailUser==""|signIn.passwordUser=="")
+    //     {
+    //         document.querySelector(".messege-signIn").innerHTML="Please fill all inputs"
+    //         console.log("hello")
+    //     }
+
+     if(signIn.emailUser==""|signIn.passwordUser==""){
+        document.querySelector(".messege-signIn").innerHTML="Please Fill All Inputs";
+
+    }
+   else
+   {
+    box.forEach(element => {
+        if(signIn.emailUser == element.email && signIn.passwordUser == element.password){
+                
+            window.open("home.html","_self")
+            
+    
+        
+        }
+        else
+        {
+            document.querySelector(".messege-signIn").innerHTML="Password or Email is wrong";
+        }
+    });
+   }
+
+    
+
+    
+
+    
+
+
+})
+
+// Sign in function End
+
+
+
+
+
+
+// input Function sign up && sign in
+
+signupRegex.userInput.addEventListener("input",function(){
+    if (userNameRegex.test(signupRegex.userInput.value)) {
+        document.getElementById("nameId").classList.add("is-valid")
+        document.getElementById("nameId").classList.remove("is-invalid")
+        document.querySelector(".messege-signup").innerHTML=""
+    }
+    else {
+        document.getElementById("nameId").classList.add("is-invalid")
+        document.getElementById("nameId").classList.remove("is-valid")
+        document.querySelector(".messege-signup").innerHTML=""
+    }
+
+
+
+})
+
+signupRegex.emailInput.addEventListener("input",function(){
+    if (emailRegex.test(signupRegex.emailInput.value)) {
+        document.getElementById("emailId").classList.add("is-valid")
+        document.getElementById("emailId").classList.remove("is-invalid")
+        document.querySelector(".login-box span").innerHTML=""
+    }
+    else {
+        document.getElementById("emailId").classList.add("is-invalid")
+        document.getElementById("emailId").classList.remove("is-valid")
+        document.querySelector(".login-box span").innerHTML=""
+    }
+
+
+
+})
+
+
+signupRegex.passwordInput.addEventListener("input",function(){
+    if (passwordRegex.test(signupRegex.passwordInput.value)) {
+        document.getElementById("passwordId").classList.add("is-valid")
+        document.getElementById("passwordId").classList.remove("is-invalid")
+       
+    }
+    else {
+        document.getElementById("passwordId").classList.add("is-invalid")
+        document.getElementById("passwordId").classList.remove("is-valid")
+        
+    }
+
+
+
+})
+
+// clear Function
+function clear() {
+    document.getElementById("nameId").value=""
+    document.getElementById("emailId").value=""
+    document.getElementById("passwordId").value=""
+    document.getElementById("nameId").classList.remove("is-valid")
+    document.getElementById("nameId").classList.remove("is-invalid")
+    document.getElementById("emailId").classList.remove("is-valid")
+    document.getElementById("emailId").classList.remove("is-invalid")
+    document.getElementById("passwordId").classList.remove("is-valid")
+    document.getElementById("passwordId").classList.remove("is-invalid")
+
+    
+}
+
+// clear Function End
+
+
+// validistion sign up && sign in
+signInRegex.emailUser.addEventListener("input",function(){
+    if (emailRegex.test(signInRegex.emailUser.value)) {
+        document.getElementById("emailIdd").classList.add("is-valid")
+        document.getElementById("emailIdd").classList.remove("is-invalid")
+        
+    }
+    else {
+        document.getElementById("emailIdd").classList.add("is-invalid")
+        document.getElementById("emailIdd").classList.remove("is-valid")
+        
+    }})
+
+
+
+    signInRegex.passwordUser.addEventListener("input",function(){
+        if (passwordRegex.test(signInRegex.passwordUser.value)) {
+            document.getElementById("passwordIdd").classList.add("is-valid")
+            document.getElementById("passwordIdd").classList.remove("is-invalid")
+            
+        }
+        else {
+            document.getElementById("passwordIdd").classList.add("is-invalid")
+            document.getElementById("passwordIdd").classList.remove("is-valid")
+            
+        }
+
+
+
+})
+
+// validistion sign up && sign in End
+
+
+
+
+
+
+
+// window.open("index.html","_self")
+// window.open("sign_up.html","_self")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var box = []
+// var edit ="create"
+// var temp
+
+// if (localStorage.getItem("Pkey") != null) {
+
+//   box = JSON.parse(localStorage.getItem("Pkey"))
+//   display()
+// }
+
+
+
+// function test() {
+//   var productList =
+//   {
+//     pName: document.getElementById("pName").value,
+//     pPrice: document.getElementById("pPrice").value,
+//     pCatagory: document.getElementById("pCatagory").value,
+//     pDes: document.getElementById("pDes").value,
+//     Pimage: document.getElementById("image").files[0].name,
+//   }
+//   if(edit ==="update"){
+//     box[temp]=productList
+    
+
+//   }
+//   else
+//   {
+
+//     box.push(productList)
+
+//   }
+
+//   localStorage.setItem("Pkey", JSON.stringify(box))
+
+//   display()
+//   clearData()
+//   edit="create"
+
+// }
+
+
+
+
+
+
+
+
+
+
+// function display() {
+//   var Databox = ""
+//   for (var i = 0; i < box.length; i++) {
+//     Databox += `
+//     <div class="col-md-3 mb-1">
+//             <div class="bg-secondary-subtle p-3">
+//               <img src="images/${box[i].Pimage}" class="img-fluid h-50" alt="">
+//               <h3>${box[i].pName}</h3>
+//               <p>${box[i].pDes}</p>
+//               <div class="d-flex justify-content-between">
+//                 <p> <span class="text-primary">Price : </span>${box[i].pPrice}</p>
+//                 <p> <span class="text-primary">Cat : </span>${box[i].pCatagory}</p>
+//               </div>
+//               <button onclick="pDelete(${i})" class="btn btn-outline-danger">Delete</button>
+//               <button onclick="update(${i})" class="btn btn-outline-danger">update</button>
+//             </div>
+//           </div>
+//     `
+//   }
+//   document.getElementById("ourRow").innerHTML = Databox
+// }
+
+// function clearData() {
+//   pName: document.getElementById("pName").value = '';
+//   pPrice: document.getElementById("pPrice").value = '';
+//   pCatagory: document.getElementById("pCatagory").value = '';
+//   pDes: document.getElementById("pDes").value = '';
+// }
+// function pDelete(i){
+//   box.splice(i,1)
+//   localStorage.setItem("Pkey", JSON.stringify(box))
+//   display()
+//   temp= i
+//   console.log(i)
+// }
+// function update(i)
+// {
+//   console.log(i)
+//   document.getElementById("pName").value= box[i].pName;
+//   document.getElementById("pPrice").value= box[i].pPrice;
+//   document.getElementById("pCatagory").value= box[i].pCatagory;
+//   document.getElementById("pDes").value= box[i].pDes;
+//   document.getElementById("image").files[0].name;
+//   edit="update"
+//   display()
+//   temp=i
+// }
+
